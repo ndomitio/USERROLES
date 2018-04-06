@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<p>Use this area to provide additional information.</p>
+
+<form>
+    <div class="ss-item-required">
+        <label>Question: What is your name?</label>
+        <input type="text" name="name" id="name"></input>
+    </div>
+    <div class="ss-item-not-required">
+        <label>Question: What is your email?</label>
+        <input type="text" name="email" id="email"></input>
+    </div>
+    <div class="ss-item-required">
+        <label>Question: What is your address?</label>
+        <textarea name="address" rows="8" cols="75" id="address"></textarea>
+    </div>
+    <div class="ss-item-required">
+        <label>What is your sex?</label>
+        <input type="radio" name="sex" value="male">Male
+        <input type="radio" name="sex" value="female">Female
+    </div>
+
+    <a href="#" onclick="formcheck(); return false">Submit</a>
+</form>
+
+
+<script>
+    function formcheck() {
+        var fields = $(".ss-item-required")
+            .find("select, textarea, input").serializeArray();
+
+        $.each(fields, function (i, field) {
+            if (!field.value)
+                alert(field.name + ' is required');
+        });
+        console.log(fields);
+    }
+</script>

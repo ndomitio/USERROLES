@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (ViewBag.displayMenu == "Yes")
+{
+    <h1>Welcome Admin. Now you can create user Role.</h1>
+
+    <li>@Html.ActionLink("Manage Role", "Index", "Role")</li>
+    <br />
+
+    @Html.ActionLink("Create New Patient", "Create", "Patients")<br />
+    //this will be a dropdown selector
+    @Html.ActionLink("Load Patient", "Details", "Patients")<br />
+    @Html.ActionLink("Add New Exercise", "Create", "Exercises")<br />
+}
+else
+{
+    <h2>  Welcome <strong>@ViewBag.Name</strong> :) .We will add user module soon </h2>
+    @Html.ActionLink("View Prescriptions", "Index", "RXes")
+
+}
+

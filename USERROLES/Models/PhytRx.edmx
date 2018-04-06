@@ -1,0 +1,579 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Duration">
+          <Key>
+            <PropertyRef Name="DurID" />
+          </Key>
+          <Property Name="DurID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DurName" Type="int" Nullable="false" />
+          <Property Name="Reps" Type="int" Nullable="false" />
+          <Property Name="Sets" Type="int" Nullable="false" />
+          <Property Name="Holds" Type="int" />
+          <Property Name="Bands" Type="nvarchar" MaxLength="20" />
+          <Property Name="Weights" Type="int" />
+          <Property Name="PerDays" Type="int" Nullable="false" />
+          <Property Name="XDays" Type="int" Nullable="false" />
+          <Property Name="ExID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Exercise">
+          <Key>
+            <PropertyRef Name="ExID" />
+          </Key>
+          <Property Name="ExID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ExDesc" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ExPic1" Type="image" />
+          <Property Name="ExPic2" Type="image" />
+          <Property Name="ExPic3" Type="image" />
+          <Property Name="ExPic4" Type="image" />
+          <Property Name="ExVid" Type="image" />
+          <Property Name="RxID" Type="int" Nullable="false" />
+          <Property Name="DurID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Logs">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LogTimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="PainNumb" Type="int" Nullable="false" />
+          <Property Name="DiffNumb" Type="int" Nullable="false" />
+          <Property Name="ComTxt" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsComplete" Type="bit" Nullable="false" />
+          <Property Name="FullSet" Type="int" />
+          <Property Name="PartialSet" Type="int" />
+          <Property Name="PID" Type="int" Nullable="false" />
+          <Property Name="PhID" Type="int" Nullable="false" />
+          <Property Name="RxID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="PID" />
+          </Key>
+          <Property Name="PID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PFName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PLName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PPic" Type="image" />
+          <Property Name="PhID" Type="int" Nullable="false" />
+          <Property Name="LogID" Type="int" Nullable="false" />
+          <Property Name="RxID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Physicians">
+          <Key>
+            <PropertyRef Name="PhID" />
+          </Key>
+          <Property Name="PhID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PhFName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PhLName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PhPic" Type="image" />
+          <Property Name="PID" Type="int" Nullable="false" />
+          <Property Name="LogID" Type="int" />
+          <Property Name="RxID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RX">
+          <Key>
+            <PropertyRef Name="RxID" />
+          </Key>
+          <Property Name="RxID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RxName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ExID" Type="int" Nullable="false" />
+          <Property Name="PID" Type="int" Nullable="false" />
+          <Property Name="PhID" Type="int" Nullable="false" />
+          <Property Name="LogID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Duration_Exercise">
+          <End Role="Exercise" Type="Self.Exercise" Multiplicity="1" />
+          <End Role="Duration" Type="Self.Duration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exercise">
+              <PropertyRef Name="ExID" />
+            </Principal>
+            <Dependent Role="Duration">
+              <PropertyRef Name="ExID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Exercise_RX">
+          <End Role="RX" Type="Self.RX" Multiplicity="1" />
+          <End Role="Exercise" Type="Self.Exercise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RX">
+              <PropertyRef Name="RxID" />
+            </Principal>
+            <Dependent Role="Exercise">
+              <PropertyRef Name="RxID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Logs_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
+          <End Role="Logs" Type="Self.Logs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="PID" />
+            </Principal>
+            <Dependent Role="Logs">
+              <PropertyRef Name="PID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Logs_Physicians">
+          <End Role="Physicians" Type="Self.Physicians" Multiplicity="1" />
+          <End Role="Logs" Type="Self.Logs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Physicians">
+              <PropertyRef Name="PhID" />
+            </Principal>
+            <Dependent Role="Logs">
+              <PropertyRef Name="PhID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Logs_RX">
+          <End Role="RX" Type="Self.RX" Multiplicity="1" />
+          <End Role="Logs" Type="Self.Logs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RX">
+              <PropertyRef Name="RxID" />
+            </Principal>
+            <Dependent Role="Logs">
+              <PropertyRef Name="RxID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Patient_Physicians">
+          <End Role="Physicians" Type="Self.Physicians" Multiplicity="1" />
+          <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Physicians">
+              <PropertyRef Name="PhID" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="PhID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Patient_RX">
+          <End Role="RX" Type="Self.RX" Multiplicity="1" />
+          <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RX">
+              <PropertyRef Name="RxID" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="RxID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Physicians_RX">
+          <End Role="RX" Type="Self.RX" Multiplicity="1" />
+          <End Role="Physicians" Type="Self.Physicians" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RX">
+              <PropertyRef Name="RxID" />
+            </Principal>
+            <Dependent Role="Physicians">
+              <PropertyRef Name="RxID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestModelStoreContainer">
+          <EntitySet Name="Duration" EntityType="Self.Duration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Exercise" EntityType="Self.Exercise" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Logs" EntityType="Self.Logs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Physicians" EntityType="Self.Physicians" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RX" EntityType="Self.RX" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Duration_Exercise" Association="Self.FK_Duration_Exercise">
+            <End Role="Exercise" EntitySet="Exercise" />
+            <End Role="Duration" EntitySet="Duration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Exercise_RX" Association="Self.FK_Exercise_RX">
+            <End Role="RX" EntitySet="RX" />
+            <End Role="Exercise" EntitySet="Exercise" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logs_Patient" Association="Self.FK_Logs_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Logs" EntitySet="Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logs_Physicians" Association="Self.FK_Logs_Physicians">
+            <End Role="Physicians" EntitySet="Physicians" />
+            <End Role="Logs" EntitySet="Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logs_RX" Association="Self.FK_Logs_RX">
+            <End Role="RX" EntitySet="RX" />
+            <End Role="Logs" EntitySet="Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Patient_Physicians" Association="Self.FK_Patient_Physicians">
+            <End Role="Physicians" EntitySet="Physicians" />
+            <End Role="Patient" EntitySet="Patient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Patient_RX" Association="Self.FK_Patient_RX">
+            <End Role="RX" EntitySet="RX" />
+            <End Role="Patient" EntitySet="Patient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Physicians_RX" Association="Self.FK_Physicians_RX">
+            <End Role="RX" EntitySet="RX" />
+            <End Role="Physicians" EntitySet="Physicians" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Duration">
+          <Key>
+            <PropertyRef Name="DurID" />
+          </Key>
+          <Property Name="DurID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DurName" Type="Int32" Nullable="false" />
+          <Property Name="Reps" Type="Int32" Nullable="false" />
+          <Property Name="Sets" Type="Int32" Nullable="false" />
+          <Property Name="Holds" Type="Int32" />
+          <Property Name="Bands" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Weights" Type="Int32" />
+          <Property Name="PerDays" Type="Int32" Nullable="false" />
+          <Property Name="XDays" Type="Int32" Nullable="false" />
+          <Property Name="ExID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Exercise" Relationship="Self.FK_Duration_Exercise" FromRole="Duration" ToRole="Exercise" />
+        </EntityType>
+        <EntityType Name="Exercise">
+          <Key>
+            <PropertyRef Name="ExID" />
+          </Key>
+          <Property Name="ExID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ExDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ExPic1" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ExPic2" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ExPic3" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ExPic4" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ExVid" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="RxID" Type="Int32" Nullable="false" />
+          <Property Name="DurID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Durations" Relationship="Self.FK_Duration_Exercise" FromRole="Exercise" ToRole="Duration" />
+          <NavigationProperty Name="RX" Relationship="Self.FK_Exercise_RX" FromRole="Exercise" ToRole="RX" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LogTimeStamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="PainNumb" Type="Int32" Nullable="false" />
+          <Property Name="DiffNumb" Type="Int32" Nullable="false" />
+          <Property Name="ComTxt" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsComplete" Type="Boolean" Nullable="false" />
+          <Property Name="FullSet" Type="Int32" />
+          <Property Name="PartialSet" Type="Int32" />
+          <Property Name="PID" Type="Int32" Nullable="false" />
+          <Property Name="PhID" Type="Int32" Nullable="false" />
+          <Property Name="RxID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Patient" Relationship="Self.FK_Logs_Patient" FromRole="Logs" ToRole="Patient" />
+          <NavigationProperty Name="Physician" Relationship="Self.FK_Logs_Physicians" FromRole="Logs" ToRole="Physicians" />
+          <NavigationProperty Name="RX" Relationship="Self.FK_Logs_RX" FromRole="Logs" ToRole="RX" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="PID" />
+          </Key>
+          <Property Name="PID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PFName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PLName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PPic" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="PhID" Type="Int32" Nullable="false" />
+          <Property Name="LogID" Type="Int32" Nullable="false" />
+          <Property Name="RxID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Logs" Relationship="Self.FK_Logs_Patient" FromRole="Patient" ToRole="Logs" />
+          <NavigationProperty Name="Physician" Relationship="Self.FK_Patient_Physicians" FromRole="Patient" ToRole="Physicians" />
+          <NavigationProperty Name="RX" Relationship="Self.FK_Patient_RX" FromRole="Patient" ToRole="RX" />
+        </EntityType>
+        <EntityType Name="Physician">
+          <Key>
+            <PropertyRef Name="PhID" />
+          </Key>
+          <Property Name="PhID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PhFName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhLName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhPic" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="PID" Type="Int32" Nullable="false" />
+          <Property Name="LogID" Type="Int32" />
+          <Property Name="RxID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Logs" Relationship="Self.FK_Logs_Physicians" FromRole="Physicians" ToRole="Logs" />
+          <NavigationProperty Name="Patients" Relationship="Self.FK_Patient_Physicians" FromRole="Physicians" ToRole="Patient" />
+          <NavigationProperty Name="RX" Relationship="Self.FK_Physicians_RX" FromRole="Physicians" ToRole="RX" />
+        </EntityType>
+        <EntityType Name="RX">
+          <Key>
+            <PropertyRef Name="RxID" />
+          </Key>
+          <Property Name="RxID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RxName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ExID" Type="Int32" Nullable="false" />
+          <Property Name="PID" Type="Int32" Nullable="false" />
+          <Property Name="PhID" Type="Int32" Nullable="false" />
+          <Property Name="LogID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Exercises" Relationship="Self.FK_Exercise_RX" FromRole="RX" ToRole="Exercise" />
+          <NavigationProperty Name="Logs" Relationship="Self.FK_Logs_RX" FromRole="RX" ToRole="Logs" />
+          <NavigationProperty Name="Patients" Relationship="Self.FK_Patient_RX" FromRole="RX" ToRole="Patient" />
+          <NavigationProperty Name="Physicians" Relationship="Self.FK_Physicians_RX" FromRole="RX" ToRole="Physicians" />
+        </EntityType>
+        <Association Name="FK_Duration_Exercise">
+          <End Role="Exercise" Type="Self.Exercise" Multiplicity="1" />
+          <End Role="Duration" Type="Self.Duration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exercise">
+              <PropertyRef Name="ExID" />
+            </Principal>
+            <Dependent Role="Duration">
+              <PropertyRef Name="ExID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Exercise_RX">
+          <End Role="RX" Type="Self.RX" Multiplicity="1" />
+          <End Role="Exercise" Type="Self.Exercise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RX">
+              <PropertyRef Name="RxID" />
+            </Principal>
+            <Dependent Role="Exercise">
+              <PropertyRef Name="RxID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Logs_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
+          <End Role="Logs" Type="Self.Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="PID" />
+            </Principal>
+            <Dependent Role="Logs">
+              <PropertyRef Name="PID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Logs_Physicians">
+          <End Role="Physicians" Type="Self.Physician" Multiplicity="1" />
+          <End Role="Logs" Type="Self.Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Physicians">
+              <PropertyRef Name="PhID" />
+            </Principal>
+            <Dependent Role="Logs">
+              <PropertyRef Name="PhID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Logs_RX">
+          <End Role="RX" Type="Self.RX" Multiplicity="1" />
+          <End Role="Logs" Type="Self.Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RX">
+              <PropertyRef Name="RxID" />
+            </Principal>
+            <Dependent Role="Logs">
+              <PropertyRef Name="RxID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Patient_Physicians">
+          <End Role="Physicians" Type="Self.Physician" Multiplicity="1" />
+          <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Physicians">
+              <PropertyRef Name="PhID" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="PhID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Patient_RX">
+          <End Role="RX" Type="Self.RX" Multiplicity="1" />
+          <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RX">
+              <PropertyRef Name="RxID" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="RxID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Physicians_RX">
+          <End Role="RX" Type="Self.RX" Multiplicity="1" />
+          <End Role="Physicians" Type="Self.Physician" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RX">
+              <PropertyRef Name="RxID" />
+            </Principal>
+            <Dependent Role="Physicians">
+              <PropertyRef Name="RxID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Durations" EntityType="Self.Duration" />
+          <EntitySet Name="Exercises" EntityType="Self.Exercise" />
+          <EntitySet Name="Logs" EntityType="Self.Log" />
+          <EntitySet Name="Patients" EntityType="Self.Patient" />
+          <EntitySet Name="Physicians" EntityType="Self.Physician" />
+          <EntitySet Name="RXes" EntityType="Self.RX" />
+          <AssociationSet Name="FK_Duration_Exercise" Association="Self.FK_Duration_Exercise">
+            <End Role="Exercise" EntitySet="Exercises" />
+            <End Role="Duration" EntitySet="Durations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Exercise_RX" Association="Self.FK_Exercise_RX">
+            <End Role="RX" EntitySet="RXes" />
+            <End Role="Exercise" EntitySet="Exercises" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logs_Patient" Association="Self.FK_Logs_Patient">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="Logs" EntitySet="Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logs_Physicians" Association="Self.FK_Logs_Physicians">
+            <End Role="Physicians" EntitySet="Physicians" />
+            <End Role="Logs" EntitySet="Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logs_RX" Association="Self.FK_Logs_RX">
+            <End Role="RX" EntitySet="RXes" />
+            <End Role="Logs" EntitySet="Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Patient_Physicians" Association="Self.FK_Patient_Physicians">
+            <End Role="Physicians" EntitySet="Physicians" />
+            <End Role="Patient" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Patient_RX" Association="Self.FK_Patient_RX">
+            <End Role="RX" EntitySet="RXes" />
+            <End Role="Patient" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Physicians_RX" Association="Self.FK_Physicians_RX">
+            <End Role="RX" EntitySet="RXes" />
+            <End Role="Physicians" EntitySet="Physicians" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestModelStoreContainer" CdmEntityContainer="Entities1">
+          <EntitySetMapping Name="Durations">
+            <EntityTypeMapping TypeName="TestModel.Duration">
+              <MappingFragment StoreEntitySet="Duration">
+                <ScalarProperty Name="DurID" ColumnName="DurID" />
+                <ScalarProperty Name="DurName" ColumnName="DurName" />
+                <ScalarProperty Name="Reps" ColumnName="Reps" />
+                <ScalarProperty Name="Sets" ColumnName="Sets" />
+                <ScalarProperty Name="Holds" ColumnName="Holds" />
+                <ScalarProperty Name="Bands" ColumnName="Bands" />
+                <ScalarProperty Name="Weights" ColumnName="Weights" />
+                <ScalarProperty Name="PerDays" ColumnName="PerDays" />
+                <ScalarProperty Name="XDays" ColumnName="XDays" />
+                <ScalarProperty Name="ExID" ColumnName="ExID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Exercises">
+            <EntityTypeMapping TypeName="TestModel.Exercise">
+              <MappingFragment StoreEntitySet="Exercise">
+                <ScalarProperty Name="ExID" ColumnName="ExID" />
+                <ScalarProperty Name="ExName" ColumnName="ExName" />
+                <ScalarProperty Name="ExDesc" ColumnName="ExDesc" />
+                <ScalarProperty Name="ExPic1" ColumnName="ExPic1" />
+                <ScalarProperty Name="ExPic2" ColumnName="ExPic2" />
+                <ScalarProperty Name="ExPic3" ColumnName="ExPic3" />
+                <ScalarProperty Name="ExPic4" ColumnName="ExPic4" />
+                <ScalarProperty Name="ExVid" ColumnName="ExVid" />
+                <ScalarProperty Name="RxID" ColumnName="RxID" />
+                <ScalarProperty Name="DurID" ColumnName="DurID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="TestModel.Log">
+              <MappingFragment StoreEntitySet="Logs">
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="LogTimeStamp" ColumnName="LogTimeStamp" />
+                <ScalarProperty Name="PainNumb" ColumnName="PainNumb" />
+                <ScalarProperty Name="DiffNumb" ColumnName="DiffNumb" />
+                <ScalarProperty Name="ComTxt" ColumnName="ComTxt" />
+                <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
+                <ScalarProperty Name="FullSet" ColumnName="FullSet" />
+                <ScalarProperty Name="PartialSet" ColumnName="PartialSet" />
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="PhID" ColumnName="PhID" />
+                <ScalarProperty Name="RxID" ColumnName="RxID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="TestModel.Patient">
+              <MappingFragment StoreEntitySet="Patient">
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="PFName" ColumnName="PFName" />
+                <ScalarProperty Name="PLName" ColumnName="PLName" />
+                <ScalarProperty Name="PPic" ColumnName="PPic" />
+                <ScalarProperty Name="PhID" ColumnName="PhID" />
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="RxID" ColumnName="RxID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Physicians">
+            <EntityTypeMapping TypeName="TestModel.Physician">
+              <MappingFragment StoreEntitySet="Physicians">
+                <ScalarProperty Name="PhID" ColumnName="PhID" />
+                <ScalarProperty Name="PhFName" ColumnName="PhFName" />
+                <ScalarProperty Name="PhLName" ColumnName="PhLName" />
+                <ScalarProperty Name="PhPic" ColumnName="PhPic" />
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="RxID" ColumnName="RxID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RXes">
+            <EntityTypeMapping TypeName="TestModel.RX">
+              <MappingFragment StoreEntitySet="RX">
+                <ScalarProperty Name="RxID" ColumnName="RxID" />
+                <ScalarProperty Name="RxName" ColumnName="RxName" />
+                <ScalarProperty Name="ExID" ColumnName="ExID" />
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="PhID" ColumnName="PhID" />
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

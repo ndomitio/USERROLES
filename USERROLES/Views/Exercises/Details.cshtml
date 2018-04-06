@@ -1,0 +1,91 @@
+﻿@model USERROLES.Models.Exercise
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+@Html.ActionLink("View Exercises", "Index", "Exercises")
+@Html.ActionLink("View Logs", "Index", "Logs")
+<div>
+    <h4>Exercise</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ExName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExDesc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExDesc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExPic1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExPic1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExPic2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExPic2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExPic3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExPic3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExPic4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExPic4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExVid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExVid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DurID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DurID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RX.RxName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RX.RxName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ExID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
