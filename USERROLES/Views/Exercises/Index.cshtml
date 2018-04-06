@@ -1,0 +1,83 @@
+﻿@model IEnumerable<USERROLES.Models.Exercise>
+
+@{
+    ViewBag.Title = "Index";
+}
+@Html.ActionLink("View Exercises", "Index", "Exercises")
+@Html.ActionLink("View RX's", "Index", "RXes")
+<h2>Index</h2>
+
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ExName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExDesc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExPic1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExPic2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExPic3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExPic4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExVid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DurID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RX.RxName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExPic1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExPic2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExPic3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExPic4)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExVid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DurID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RX.RxName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ExID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ExID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ExID })
+            </td>
+        </tr>
+    }
+
+</table>

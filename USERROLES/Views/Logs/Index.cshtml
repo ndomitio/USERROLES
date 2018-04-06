@@ -1,0 +1,89 @@
+﻿@model IEnumerable<USERROLES.Models.Log>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@Html.ActionLink("View Exercises", "Index", "Exercises")
+@Html.ActionLink("View RX's", "Index", "RXes")
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LogTimeStamp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PainNumb)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiffNumb)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ComTxt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsComplete)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FullSet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PartialSet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Patient.PFName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Physician.PhFName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RX.RxName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LogTimeStamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PainNumb)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiffNumb)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComTxt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsComplete)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullSet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartialSet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patient.PFName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Physician.PhFName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RX.RxName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.LogID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.LogID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.LogID })
+            </td>
+        </tr>
+    }
+
+</table>

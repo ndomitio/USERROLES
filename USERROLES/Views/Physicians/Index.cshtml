@@ -1,0 +1,67 @@
+﻿@model IEnumerable<USERROLES.Models.Physician>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@Html.ActionLink("Create New Patient", "Create", "Patients")
+@Html.ActionLink("Create New", "Create")
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PhFName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhLName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhPic)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LogID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RX.RxName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhFName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhLName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhPic)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LogID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RX.RxName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.PhID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.PhID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.PhID })
+            </td>
+        </tr>
+    }
+
+</table>
